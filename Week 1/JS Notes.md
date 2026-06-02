@@ -185,6 +185,16 @@ console.log(btn);
 
 ```
 
+```jsx
+// Spread into array for .map() / .filter():
+const arr = [...items];
+arr.filter(item => item.classList.contains('active'));
+```
+
+**Returns:** a `NodeList` — all matching elements (could be empty, length 0)
+
+⚠️NodeList is *not* an Array. It has `.forEach()` but NOT `.map()`, `.filter()`, or `.reduce()`. Spread it into an array when you need those: `[...items]`
+
 🧠 Rule:
 
 > querySelectorAll → multiple
@@ -229,11 +239,31 @@ element.classList.toggle("active");
 ### Example
 
 ```jsx
+// Create a brand new element
+const btn = document.createElement('button');
+btn.textContent = 'Submit';
+btn.classList.add('btn');
+btn.setAttribute('type', 'button');
+
+// Insert it into the DOM
+parent.appendChild(btn);          // add as last child
+parent.prepend(btn);               // add as first child
+parent.insertBefore(btn, sibling);  // before a sibling
+
+// Remove an element
+btn.remove();                       // modern, clean
+parent.removeChild(btn);            // older browsers
+```
+
+```jsx
 const box =document.querySelector(".box");
 
 box.classList.add("highlight");
 box.classList.remove("hidden");
 box.classList.toggle("active");
+
+box.classList.contains('active');  // → true or false
+box.classList.add('active', 'loaded'); // add multiple at once
 
 ```
 
@@ -260,6 +290,22 @@ function handleClick(){
 }
 
 element.addEventListener("click",handleclick)
+
+//example
+const btn = document.querySelector('#my-btn');
+
+// Syntax: element.addEventListener(eventType, handler)
+btn.addEventListener('click', (e) => {
+  console.log('Clicked!');
+  console.log(e.target);        // the element that was clicked
+  e.preventDefault();           // stop the default browser action
+});
+
+// Common event types:
+// 'click', 'mouseenter', 'mouseleave'
+// 'keydown', 'keyup'
+// 'submit', 'input', 'change', 'focus', 'blur'
+// 'scroll', 'resize', 'load', 'DOMContentLoaded'
 
 ```
 
@@ -312,6 +358,30 @@ button.addEventListener("click",(e) => {
   e.target.classList.toggle("active");
 });
 
+```
+
+---
+
+## Keyboard Events
+
+```jsx
+// Attach to document to catch ALL keypresses
+document.addEventListener('keydown', (e) => {
+  console.log(e.key);      // 'Escape', 'Enter', 'Tab', 'a', 'A', ' ', etc.
+  console.log(e.code);     // 'Escape', 'Enter', 'Tab', 'KeyA' (physical key)
+  console.log(e.shiftKey); // true if Shift held down
+  console.log(e.ctrlKey);  // true if Ctrl held down
+
+  if (e.key === 'Escape') closeModal();
+
+  if (e.shiftKey && e.key === 'Tab') {
+    // Shift+Tab (going backwards) — used in focus trap
+  }
+});
+
+// key vs code:
+// e.key  → the character value ('A' vs 'a' depends on Shift)
+// e.code → the physical key ('KeyA' regardless of Shift)
 ```
 
 ---
@@ -381,7 +451,7 @@ btn.addEventListener("click",() => {
 
 ### Tips
 
-> Default to textContent.
+> **Default** to **textContent**.
 > 
 > 
 > Use `innerHTML` only when you truly need HTML.
@@ -394,3 +464,5 @@ innerText   → visible text only
 textContent → all text, visible or not
 innerHTML   → text + HTML tags
 ```
+
+🚫**XSS risk:** never do `el.innerHTML = userInput` . If the user controls innerHTML content they can inject `<script>` tags. Always use `textContent` f or user-provided text.

@@ -1,4 +1,4 @@
-//Open on button click · Close on overlay click · Close on Escape key · Focus trap (Tab stays inside)
+//Open on button click · Close on overlay click · Close on Escape key 
 
 const btn=document.getElementById("btn")
 const modal=document.getElementById("modal")

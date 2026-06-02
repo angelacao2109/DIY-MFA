@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Event Delegation Practice</title>
+  <style>
+    .active {
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+
+  <ul>
+    <li>Matcha</li>
+    <li>Cat</li>
+    <li>Dog</li>
+    <li>Popcorn</li>
+    <li>Gym</li>
+    <li>Pink</li>
+  </ul>
+
+  <script>
+    /*
+      Do:
+      - Create a <ul> with many <li> items.
+      - Add one click listener on the <ul>.
+      - When an <li> is clicked, highlight it and store the "selected item" in a JS variable.
+
+      Why listen on <ul> and not each <li>? — Event Delegation
+      - When you click an <li>, the click bubbles UP through the DOM:
+        from the <li> → to the <ul> → to the body → to the html.
+        That means the <ul> listener hears every <li> click automatically.
+
+      - I could put a listener on each <li> directly, but:
+        1. That's 6 separate listeners right now — and 100 if the list grows.
+           One listener on the <ul> always stays at just 1.
+        2. If I add a new <li> later with JavaScript, it gets no listener.
+           With the <ul> listener, new items work for free.
+
+      - event.target tells me exactly which <li> was clicked,
+        even though the listener lives on the <ul>.
+    */
+
+    let selectedItems = [];
+    let clickedItem = "";
+
+    const ulElement = document.querySelector("ul");
+
+    ulElement.addEventListener("click", (event) => {
+      if (event.target.tagName === "LI") {
+        event.target.classList.toggle("active");
+        selectedItems.push(event.target.innerText);
+        clickedItem = event.target.innerText;
+        console.log(selectedItems);
+        console.log("You clicked on " + clickedItem);
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Tabs Practice</title>
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <button data-target="section1">Button 1</button>
+  <button data-target="section2">Button 2</button>
+  <button data-target="section3">Button 3</button>
+
+  <section id="section1">Section 1</section>
+  <section id="section2">Section 2</section>
+  <section id="section3">Section 3</section>
+
+  <script>
+    /*
+      Task:
+      - 3 buttons, 3 content sections.
+      - Clicking a button shows its section and hides the others (using classes).
+
+      Performance note:
+      - Count how many DOM queries you do and reuse elements instead of re-querying.
+      - DOM queries (document.querySelector / querySelectorAll) are expensive —
+        the browser has to scan the whole page each time.
+      - We do exactly 2 queries total, both at the top, then reuse them everywhere.
+        We never query inside the loop.
+
+      DOM queries in this file: 2
+        1. document.querySelectorAll("button")  → stored in buttons
+        2. document.querySelectorAll("section") → stored in sections
+    */
+
+    // Query 1 — grab all buttons once, reuse the NodeList everywhere
+    const buttons = document.querySelectorAll("button");
+
+    // Query 2 — grab all sections once, reuse the NodeList everywhere
+    const sections = document.querySelectorAll("section");
+
+    console.log("DOM queries made:", 2);
+
+    // Add a click listener to each button
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+
+        // From this button, go to its dataset, then get the target value
+        // e.g. data-target="section1" → targetId = "section1"
+        const targetId = button.dataset.target;
+
+        // Loop every section — show the target one, hide the rest
+        sections.forEach((sec) => {
+          if (sec.id === targetId) {
+            // This section matches — show it
+            sec.classList.remove("hidden");
+          } else {
+            // All others — hide them
+            sec.classList.add("hidden");
+          }
+        });
+
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work — Filterable Grid</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" /> 
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Work</h1>
+  <p>Selected Projects</p>
+</div>
+
+<!-- ─────────────────────────────────────────
+     FILTER BUTTONS
+     data-filter is what your JS reads
+───────────────────────────────────────── -->
+<div class="filters">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="design">Design</button>
+  <button class="filter-btn" data-filter="dev">Dev</button>
+  <button class="filter-btn" data-filter="motion">Motion</button>
+</div>
+
+<!-- ─────────────────────────────────────────
+     CARD GRID
+     data-category is what your JS reads + compares
+───────────────────────────────────────── -->
+<div class="card-grid">
+
+  <!-- DESIGN -->
+  <article class="card" data-category="design">
+    <div class="card-stripe"></div>
+    <div class="card-body">
+      <span class="card-tag">Design</span>
+      <h2 class="card-title">Brand Identity System</h2>
+      <p class="card-desc">Visual identity and design language for a fintech startup — logo, type scale, color, and component library.</p>
+      <div class="card-meta">
+        <span class="card-year">2024</span>
+        <div class="card-arrow">↗</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" data-category="design">
+    <div class="card-stripe"></div>
+    <div class="card-body">
+      <span class="card-tag">Design</span>
+      <h2 class="card-title">Editorial Layout Series</h2>
+      <p class="card-desc">Print-influenced digital editorial layouts for a culture magazine's web presence.</p>
+      <div class="card-meta">
+        <span class="card-year">2024</span>
+        <div class="card-arrow">↗</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" data-category="design">
+    <div class="card-stripe"></div>
+    <div class="card-body">
+      <span class="card-tag">Design</span>
+      <h2 class="card-title">Design System Audit</h2>
+      <p class="card-desc">Full audit and rebuild of a SaaS product's component library — tokens, patterns, documentation.</p>
+      <div class="card-meta">
+        <span class="card-year">2023</span>
+        <div class="card-arrow">↗</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- DEV -->
+  <article class="card" data-category="dev">
+    <div class="card-stripe"></div>
+    <div class="card-body">
+      <span class="card-tag">Dev</span>
+      <h2 class="card-title">Portfolio CMS</h2>
+      <p class="card-desc">Headless CMS-backed portfolio with dynamic filtering, lazy loading, and edge-cached delivery.</p>
+      <div class="card-meta">
+        <span class="card-year">2024</span>
+        <div class="card-arrow">↗</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" data-category="dev">
+    <div class="card-stripe"></div>
+    <div class="card-body">
+      <span class="card-tag">Dev</span>
+      <h2 class="card-title">Component Library</h2>
+      <p class="card-desc">Accessible, unstyled React component library — accordion, tabs, modal, combobox — published to npm.</p>
+      <div class="card-meta">
+        <span class="card-year">2024</span>
+        <div class="card-arrow">↗</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" data-category="dev">
+    <div class="card-stripe"></div>
+    <div class="card-body">
+      <span class="card-tag">Dev</span>
+      <h2 class="card-title">Real-time Dashboard</h2>
+      <p class="card-desc">WebSocket-driven analytics dashboard with live data visualization and configurable widget layout.</p>
+      <div class="card-meta">
+        <span class="card-year">2023</span>
+        <div class="card-arrow">↗</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- MOTION -->
+  <article class="card" data-category="motion">
+    <div class="card-stripe"></div>
+    <div class="card-body">
+      <span class="card-tag">Motion</span>
+      <h2 class="card-title">Scroll Narrative</h2>
+      <p class="card-desc">Scroll-driven storytelling experience — GSAP ScrollTrigger choreographed across 12 scenes.</p>
+      <div class="card-meta">
+        <span class="card-year">2024</span>
+        <div class="card-arrow">↗</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" data-category="motion">
+    <div class="card-stripe"></div>
+    <div class="card-body">
+      <span class="card-tag">Motion</span>
+      <h2 class="card-title">UI Microinteractions</h2>
+      <p class="card-desc">Motion design system — spring physics, transition curves, and choreography rules for a product team.</p>
+      <div class="card-meta">
+        <span class="card-year">2024</span>
+        <div class="card-arrow">↗</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" data-category="motion">
+    <div class="card-stripe"></div>
+    <div class="card-body">
+      <span class="card-tag">Motion</span>
+      <h2 class="card-title">Three.js Landing Page</h2>
+      <p class="card-desc">WebGL-powered product landing with custom shader animations and physics-based particle system.</p>
+      <div class="card-meta">
+        <span class="card-year">2023</span>
+        <div class="card-arrow">↗</div>
+      </div>
+    </div>
+  </article>
+
+</div><!-- /.card-grid -->
+
+
+<script src="main.js" defer></script>
+
+</body>
+</html>

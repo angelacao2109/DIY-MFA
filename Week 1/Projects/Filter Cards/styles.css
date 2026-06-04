@@ -1,0 +1,252 @@
+
+
+/* ─────────────────────────────────────────
+   TOKENS
+───────────────────────────────────────── */
+:root {
+  --bg:      #111111;
+  --surf:    #1c1c1c;
+  --bdr:     #2a2a2a;
+  --txt:     #f0f0ee;
+  --muted:   #666;
+  --subtle:  #333;
+
+  /* Category colors — used by CSS attr selectors */
+  --design:  #f45b69;
+  --dev:     #3d91ff;
+  --motion:  #a259ff;
+
+  --radius:  10px;
+  --gap:     20px;
+}
+
+/* ─────────────────────────────────────────
+   RESET + BASE
+───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  padding: 60px 40px 100px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─────────────────────────────────────────
+   PAGE HEADER
+───────────────────────────────────────── */
+.page-header {
+  margin-bottom: 48px;
+}
+
+.page-header h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--txt);
+  margin-bottom: 10px;
+}
+
+.page-header p {
+  font-size: 14px;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+/* ─────────────────────────────────────────
+   FILTER BUTTONS
+   — Your JS will: add/remove .active on click
+───────────────────────────────────────── */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.filter-btn {
+  background: none;
+  border: 1px solid var(--bdr);
+  color: var(--muted);
+  border-radius: 100px;
+  padding: 7px 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.filter-btn:hover {
+  border-color: var(--subtle);
+  color: var(--txt);
+}
+
+/* Active state — your JS adds this class */
+.filter-btn.active {
+  background: var(--txt);
+  color: var(--bg);
+  border-color: var(--txt);
+  font-weight: 500;
+}
+
+/* ─────────────────────────────────────────
+   CARD GRID
+───────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--gap);
+}
+
+/* ─────────────────────────────────────────
+   CARD — BASE STATE
+   — Transition lives HERE, not on .hidden
+───────────────────────────────────────── */
+.card {
+  background: var(--surf);
+  border: 1px solid var(--bdr);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: default;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.card:hover {
+  border-color: var(--subtle);
+}
+
+/* ─────────────────────────────────────────
+   .hidden — FILTER HIDE STATE
+   Your JS adds/removes this class per card
+───────────────────────────────────────── */
+.card.hidden {
+  display: none;
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────
+   IntersectionObserver ANIMATION STATES
+   — Cards start in .io-init (invisible+offset)
+   — Your JS adds .io-visible when card enters viewport
+   — Call observer.unobserve() after to animate once only
+───────────────────────────────────────── */
+.card.io-init {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.card.io-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────────────
+   CATEGORY COLOR STRIPE (top of card)
+───────────────────────────────────────── */
+.card-stripe {
+  height: 3px;
+}
+
+.card[data-category="design"] .card-stripe { background: var(--design); }
+.card[data-category="dev"]    .card-stripe { background: var(--dev); }
+.card[data-category="motion"] .card-stripe { background: var(--motion); }
+
+/* ─────────────────────────────────────────
+   CARD BODY
+───────────────────────────────────────── */
+.card-body {
+  padding: 22px 22px 20px;
+}
+
+.card-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+}
+
+.card[data-category="design"] .card-tag {
+  background: rgba(244, 91, 105, 0.12);
+  color: var(--design);
+}
+.card[data-category="dev"] .card-tag {
+  background: rgba(61, 145, 255, 0.12);
+  color: var(--dev);
+}
+.card[data-category="motion"] .card-tag {
+  background: rgba(162, 89, 255, 0.12);
+  color: var(--motion);
+}
+
+.card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--txt);
+  margin-bottom: 10px;
+}
+
+.card-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--muted);
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--bdr);
+}
+
+.card-year {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'DM Sans', monospace;
+  letter-spacing: 0.05em;
+}
+
+.card-arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--bdr);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 13px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.card:hover .card-arrow {
+  border-color: var(--subtle);
+  color: var(--txt);
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media (max-width: 600px) {
+  body { padding: 40px 20px 80px; }
+  .card-grid { grid-template-columns: 1fr; }
+}
+

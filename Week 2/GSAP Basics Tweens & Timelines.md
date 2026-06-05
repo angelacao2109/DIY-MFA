@@ -73,6 +73,29 @@ For the **best performance**, animate **CSS transform properties** and **opacity
 6. `skewX`, `skewY`
 7. `scale`, `scaleX`, `scaleY`
 
+```jsx
+// "Take this element and move it to these values"
+gsap.to('.box', {
+  x: 200,          // move 200px right (transforms, not margin)
+  opacity: 0,      // fade out
+  scale: 1.5,      // scale up
+  rotation: 45,   // rotate 45 degrees
+  duration: 1,     // seconds (default is 0.5)
+  ease: 'power2.out',
+  delay: 0.5,      // wait before starting
+  repeat: 2,       // repeat 2 more times (-1 = infinite)
+  yoyo: true,      // alternate direction on each repeat
+});
+
+```
+
+<aside>
+💡
+
+Use `x`/`y` not `left`/`top`. GSAP uses CSS transforms (GPU-accelerated, no layout reflow). Moving an element with `x: 100` is dramatically more performant than `left: '100px'`.
+
+</aside>
+
 ## Animating Other Properties
 
 GSAP can animate **any numeric property**.

@@ -1,7 +1,5 @@
 # GSAP Notes — Animated Buttons: Hover Effects
 
-# GSAP Notes — Animated Buttons: Hover Effects
-
 ---
 
 ## The core pattern for all hover animations

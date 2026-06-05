@@ -356,11 +356,9 @@ transformOrigin values are set with a pair of **horizontal** (x) and **vertic
 
 The values are *commonly* set in **pixels**, **percents**, or using the **css keywords**: left, center, right, top, bottom.
 
-![Screenshot 2026-02-25 at 9.07.32 PM.png](GSAP%20Basics%20Tweens%20&%20Timelines/Screenshot_2026-02-25_at_9.07.32_PM.png)
-
-![Screenshot 2026-02-25 at 9.07.44 PM.png](GSAP%20Basics%20Tweens%20&%20Timelines/Screenshot_2026-02-25_at_9.07.44_PM.png)
-
-![Screenshot 2026-02-25 at 9.10.22 PM.png](GSAP%20Basics%20Tweens%20&%20Timelines/Screenshot_2026-02-25_at_9.10.22_PM.png)
+<img width="666" height="640" alt="Screenshot_2026-02-25_at_9 07 32_PM" src="https://github.com/user-attachments/assets/04620c31-b088-4384-95cc-c3d1cb576378" />
+<img width="666" height="636" alt="Screenshot_2026-02-25_at_9 07 44_PM" src="https://github.com/user-attachments/assets/a8f44e0d-33f8-41d6-bacd-ada90f8c72a0" />
+<img width="663" height="641" alt="Screenshot_2026-02-25_at_9 10 22_PM" src="https://github.com/user-attachments/assets/268b8315-5b98-4b07-ae10-9e3df58b4a94" />
 
 ---
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GSAP Practice</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" /> 
+  <!-- GSAP loaded and ready for you -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrambleTextPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/TextPlugin.min.js"></script>
+
+</head>
+<body>
+
+  <!-- ══════════════ NAV ══════════════ -->
+  <nav class="nav">
+
+    <a class="nav-brand" href="#">Aes<em>th</em></a>
+
+    <ul class="nav-links">
+      <li class="nav-item">Work</li>
+      <li class="nav-item">Studio</li>
+      <li class="nav-item">Process</li>
+      <li class="nav-item">Journal</li>
+      
+    </ul>
+
+    <button class="nav-item nav-cta">Start a project</button>
+
+  </nav>
+
+
+  <!-- ══════════════ HERO ══════════════ -->
+  <section class="hero">
+    <div class="hero-inner">
+
+      <p class="hero-eyebrow">Brand Identity &amp; Direction</p>
+
+      <!--
+        Each word wrapped in .word-wrapper > .word
+        GSAP target: .word  (7 elements total)
+      -->
+      <h1 class="hero-headline">
+        <span class="word-wrapper"><span class="word">We</span></span>
+        <span class="word-wrapper"><span class="word">make</span></span>
+        <span class="word-wrapper"><span class="word">brands</span></span>
+        <br>
+        <span class="word-wrapper"><span class="word">that</span></span>
+        <span class="word-wrapper"><span class="word">feel</span></span>
+        <span class="word-wrapper"><span class="word"><em>inevitable.</em></span></span>
+      </h1>
+
+      <p class="hero-sub">
+        A boutique studio for visual identity, editorial systems,
+        and the quiet details that make a brand unforgettable.
+      </p>
+
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Est.</span>
+          <span class="hero-meta-value">2019</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Based in</span>
+          <span class="hero-meta-value">New York</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Discipline</span>
+          <span class="hero-meta-value">Identity &amp; Brand</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+<script src="main.js" defer></script>
+
+
+</body>
+</html>

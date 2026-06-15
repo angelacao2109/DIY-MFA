@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScrollTrigger Builds</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ─── NAV ─────────────────────────────────────── -->
+  <nav class="site-nav">
+    <span class="nav-logo">ST Builds</span>
+    <div class="nav-links">
+      <a href="#sticky">01 Sticky</a>
+      <a href="#scrub">02 Scrub</a>
+      <a href="#parallax">03 Parallax</a>
+      <a href="#batch">04 Batch</a>
+      <a href="#horizontal">05 Horizontal</a>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════
+       BUILD 01 — STICKY SIDE BY SIDE
+       ST will: pin .sticky-left while .sticky-right scrolls
+  ═══════════════════════════════════════════════ -->
+  <section id="sticky" class="section section--sticky">
+    <div class="section-tag">Build 01 — Sticky Side by Side</div>
+
+    <div class="sticky-inner">
+
+      <!-- LEFT — gets pinned by ScrollTrigger -->
+      <div class="sticky-left">
+        <p class="eyebrow">Our Process</p>
+        <h2 class="sticky-heading">Four steps to something great</h2>
+        <p class="sticky-body">
+          Each phase builds on the last. Scroll through to see how we work.
+        </p>
+        <div class="sticky-progress-wrap">
+          <div class="sticky-progress-bar" id="sticky-progress"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT — scrolls normally past the pinned left -->
+      <div class="sticky-right">
+
+        <div class="scroll-item">
+          <div class="scroll-item__visual design-bg"></div>
+          <div class="scroll-item__body">
+            <span class="item-num">01</span>
+            <h3>Discovery</h3>
+            <p>Deep research, stakeholder interviews, and competitive analysis before a single pixel is placed.</p>
+          </div>
+        </div>
+
+        <div class="scroll-item">
+          <div class="scroll-item__visual dev-bg"></div>
+          <div class="scroll-item__body">
+            <span class="item-num">02</span>
+            <h3>Design</h3>
+            <p>Wireframes, visual identity, and a component system built for scale and consistency.</p>
+          </div>
+        </div>
+
+        <div class="scroll-item">
+          <div class="scroll-item__visual motion-bg"></div>
+          <div class="scroll-item__body">
+            <span class="item-num">03</span>
+            <h3>Build</h3>
+            <p>Clean, performant code. Animation systems that add meaning, not noise.</p>
+          </div>
+        </div>
+
+        <div class="scroll-item">
+          <div class="scroll-item__visual launch-bg"></div>
+          <div class="scroll-item__body">
+            <span class="item-num">04</span>
+            <h3>Launch</h3>
+            <p>QA across devices, performance audits, and full handover documentation.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       BUILD 02 — SCRUBBED TIMELINE
+       ST will: pin this section, tie animation progress to scroll (scrub: 1)
+  ═══════════════════════════════════════════════ -->
+  <section id="scrub" class="section section--scrub">
+    <div class="section-tag">Build 02 — Scrubbed Timeline</div>
+
+    <div class="scrub-inner">
+
+      <!-- The big animated number — this should change as you scrub -->
+      <div class="scrub-display">
+        <div class="scrub-year" id="scrub-year">2021</div>
+        <div class="scrub-line-outer">
+          <div class="scrub-line-fill" id="scrub-line"></div>
+        </div>
+      </div>
+
+      <!-- Timeline steps — each animates in on scrub -->
+      <div class="scrub-steps">
+
+        <div class="scrub-step" id="scrub-step-1">
+          <div class="step-dot"></div>
+          <div class="step-text">
+            <h3 class="step-title">Founded</h3>
+            <p>Studio launched with a focus on motion-first web experiences.</p>
+          </div>
+        </div>
+
+        <div class="scrub-step" id="scrub-step-2">
+          <div class="step-dot"></div>
+          <div class="step-text">
+            <h3 class="step-title">First Award</h3>
+            <p>Site of the Day recognition from Awwwards for a brand launch project.</p>
+          </div>
+        </div>
+
+        <div class="scrub-step" id="scrub-step-3">
+          <div class="step-dot"></div>
+          <div class="step-text">
+            <h3 class="step-title">Team of Eight</h3>
+            <p>Expanded to a full crew of designers, developers, and motion artists.</p>
+          </div>
+        </div>
+
+        <div class="scrub-step" id="scrub-step-4">
+          <div class="step-dot"></div>
+          <div class="step-text">
+            <h3 class="step-title">Global Reach</h3>
+            <p>Clients across 12 countries. Projects in 6 languages.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       BUILD 03 — PARALLAX HERO
+       ST will: move #parallax-bg at 0.5× scroll speed (y or yPercent)
+  ═══════════════════════════════════════════════ -->
+  <section id="parallax" class="section section--parallax">
+    <div class="section-tag section-tag--light">Build 03 — Parallax Hero</div>
+
+    <!-- Background — moves at slower speed than the page.
+         Parent has overflow: hidden to clip the extra height. -->
+    <div class="parallax-bg-wrap">
+      <div class="parallax-bg" id="parallax-bg">
+        <!-- Abstract shapes — you can give these individual parallax speeds too -->
+        <div class="para-shape shape-a" id="shape-a"></div>
+        <div class="para-shape shape-b" id="shape-b"></div>
+        <div class="para-shape shape-c" id="shape-c"></div>
+      </div>
+    </div>
+
+    <!-- Foreground content — scrolls at normal speed -->
+    <div class="parallax-content">
+      <p class="eyebrow eyebrow--light">Creative Studio</p>
+      <h1 class="parallax-title">Motion<br>by Design</h1>
+      <p class="parallax-sub">Where interface meets intention.</p>
+      <a href="#batch" class="cta-btn">View Work <span>↓</span></a>
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       BUILD 04 — BATCH CARD REVEAL
+       ST will: ScrollTrigger.batch() to stagger cards in as they enter viewport
+       Initial state (opacity: 0, y: 40) is set by GSAP in script.js
+  ═══════════════════════════════════════════════ -->
+  <section id="batch" class="section section--batch">
+    <div class="section-tag">Build 04 — Batch Card Reveal</div>
+
+    <div class="batch-header">
+      <h2 class="batch-title">Selected Projects</h2>
+      <p class="batch-sub">Cards stagger in as each batch enters the viewport.</p>
+    </div>
+
+    <!-- Cards — gsap.set() in script.js will set initial opacity: 0 -->
+    <div class="card-grid">
+
+      <article class="project-card" data-category="design">
+        <div class="card-img design-img"></div>
+        <div class="card-body">
+          <span class="card-cat">Design</span>
+          <h3 class="card-title">Brand Identity System</h3>
+          <p class="card-desc">Visual identity for a fintech startup — logo, type, colour, tokens.</p>
+          <span class="card-year">2024</span>
+        </div>
+      </article>
+
+      <article class="project-card" data-category="dev">
+        <div class="card-img dev-img"></div>
+        <div class="card-body">
+          <span class="card-cat">Dev</span>
+          <h3 class="card-title">Portfolio CMS</h3>
+          <p class="card-desc">Headless CMS-backed portfolio with dynamic filtering and lazy loading.</p>
+          <span class="card-year">2024</span>
+        </div>
+      </article>
+
+      <article class="project-card" data-category="motion">
+        <div class="card-img motion-img"></div>
+        <div class="card-body">
+          <span class="card-cat">Motion</span>
+          <h3 class="card-title">Scroll Narrative</h3>
+          <p class="card-desc">12-scene GSAP ScrollTrigger-driven storytelling experience.</p>
+          <span class="card-year">2024</span>
+        </div>
+      </article>
+
+      <article class="project-card" data-category="design">
+        <div class="card-img design-img-2"></div>
+        <div class="card-body">
+          <span class="card-cat">Design</span>
+          <h3 class="card-title">Editorial Layout</h3>
+          <p class="card-desc">Print-influenced digital magazine for a culture brand.</p>
+          <span class="card-year">2023</span>
+        </div>
+      </article>
+
+      <article class="project-card" data-category="dev">
+        <div class="card-img dev-img-2"></div>
+        <div class="card-body">
+          <span class="card-cat">Dev</span>
+          <h3 class="card-title">Component Library</h3>
+          <p class="card-desc">Accessible React components published to npm — accordion, tabs, modal.</p>
+          <span class="card-year">2023</span>
+        </div>
+      </article>
+
+      <article class="project-card" data-category="motion">
+        <div class="card-img motion-img-2"></div>
+        <div class="card-body">
+          <span class="card-cat">Motion</span>
+          <h3 class="card-title">UI Microinteractions</h3>
+          <p class="card-desc">Motion design system — spring physics and choreography rules.</p>
+          <span class="card-year">2023</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       BUILD 05 — HORIZONTAL SCROLL
+       ST will: pin .horiz-outer, scrub .horiz-track's x position
+       The track is as wide as (number of panels × 100vw)
+  ═══════════════════════════════════════════════ -->
+
+  <!-- Section label lives outside the pinned wrapper -->
+  <div class="section-tag section-tag--horiz">Build 05 — Horizontal Scroll</div>
+
+  <!-- This whole div gets pinned by ST -->
+  <div class="horiz-outer" id="horiz-outer">
+
+    <!-- This div gets translated on the x axis by ST -->
+    <div class="horiz-track" id="horiz-track">
+
+      <div class="panel panel-1">
+        <div class="panel-content">
+          <span class="panel-num">01</span>
+          <h2 class="panel-title">Design</h2>
+          <p class="panel-body">Systems that scale. Visual languages that breathe.</p>
+        </div>
+      </div>
+
+      <div class="panel panel-2">
+        <div class="panel-content">
+          <span class="panel-num">02</span>
+          <h2 class="panel-title">Develop</h2>
+          <p class="panel-body">Performant, accessible code. Zero compromise on craft.</p>
+        </div>
+      </div>
+
+      <div class="panel panel-3">
+        <div class="panel-content">
+          <span class="panel-num">03</span>
+          <h2 class="panel-title">Animate</h2>
+          <p class="panel-body">Motion with intention. Every transition tells a story.</p>
+        </div>
+      </div>
+
+      <div class="panel panel-4">
+        <div class="panel-content">
+          <span class="panel-num">04</span>
+          <h2 class="panel-title">Ship</h2>
+          <p class="panel-body">On time. On spec. Tested across every device that matters.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ─── FOOTER ───────────────────────────────────── -->
+  <footer class="site-footer">
+    <p>All 5 builds scaffolded — add your ScrollTrigger code in <code>script.js</code></p>
+  </footer>
+
+
+  <!-- GSAP + ScrollTrigger via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="main.js"></script>
+
+</body>
+</html>

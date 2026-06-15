@@ -1,0 +1,663 @@
+/* ═══════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --bg:      #0a0a0a;
+  --surf:    #141414;
+  --surf2:   #1e1e1e;
+  --bdr:     #2a2a2a;
+  --txt:     #f0f0ee;
+  --muted:   #555;
+  --green:   #88ce02;
+  --design:  #f45b69;
+  --dev:     #3d91ff;
+  --motion:  #a259ff;
+  --launch:  #2dd4bf;
+
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --nav-h: 56px;
+}
+
+
+/* ═══════════════════════════════════════════════
+   RESET + BASE
+═══════════════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bdr); border-radius: 2px; }
+
+
+/* ═══════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════ */
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--bdr);
+}
+
+.nav-logo {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: 0.06em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+
+.nav-links a {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--txt); }
+
+
+/* ═══════════════════════════════════════════════
+   SHARED SECTION STYLES
+═══════════════════════════════════════════════ */
+.section {
+  min-height: 100vh;
+  padding: calc(var(--nav-h) + 60px) 60px 80px;
+  border-bottom: 1px solid var(--bdr);
+}
+
+.section-tag {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--green);
+  margin-bottom: 60px;
+}
+
+.section-tag--light { color: rgba(255, 255, 255, 0.5); }
+
+.eyebrow {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.eyebrow--light { color: rgba(255,255,255,0.45); }
+
+
+/* ═══════════════════════════════════════════════
+   BUILD 01 — STICKY SIDE BY SIDE
+═══════════════════════════════════════════════ */
+.section--sticky {
+  padding-bottom: 0;
+}
+
+.sticky-inner {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* LEFT — ScrollTrigger will pin this */
+.sticky-left {
+  width: 38%;
+  flex-shrink: 0;
+  padding-top: 20px;
+  padding-bottom: 80px;
+}
+
+.sticky-heading {
+  font-family: var(--font-head);
+  font-size: clamp(28px, 3vw, 46px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--txt);
+  margin-bottom: 20px;
+}
+
+.sticky-body {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 340px;
+  margin-bottom: 32px;
+}
+
+.sticky-progress-wrap {
+  width: 48px;
+  height: 4px;
+  background: var(--bdr);
+  border-radius: 2px;
+  overflow: visible;
+}
+
+.sticky-progress-bar {
+  height: 100%;
+  width: 0%;            /* JS will animate this */
+  background: var(--green);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* RIGHT — scrolls normally */
+.sticky-right {
+  flex: 1;
+}
+
+.scroll-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: center;
+  min-height: 70vh;
+  padding: 60px 0;
+  border-top: 1px solid var(--bdr);
+}
+
+.scroll-item:first-child { border-top: none; }
+
+.scroll-item__visual {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 10px;
+}
+
+/* Category accent colours */
+.design-bg  { background: linear-gradient(135deg, #2a0a0d, var(--design)); }
+.dev-bg     { background: linear-gradient(135deg, #030b1a, var(--dev)); }
+.motion-bg  { background: linear-gradient(135deg, #150826, var(--motion)); }
+.launch-bg  { background: linear-gradient(135deg, #021a16, var(--launch)); }
+
+.scroll-item__body { padding-left: 8px; }
+
+.item-num {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+
+.scroll-item__body h3 {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.scroll-item__body p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+
+/* ═══════════════════════════════════════════════
+   BUILD 02 — SCRUBBED TIMELINE
+═══════════════════════════════════════════════ */
+.section--scrub {
+  min-height: 100vh;
+}
+
+.scrub-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+/* Left: Big display number + progress line */
+.scrub-display {
+  position: relative;
+}
+
+.scrub-year {
+  font-family: var(--font-head);
+  font-size: clamp(80px, 12vw, 160px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--txt);
+  margin-bottom: 32px;
+}
+
+.scrub-line-outer {
+  width: 100%;
+  height: 2px;
+  background: var(--bdr);
+  border-radius: 1px;
+}
+
+.scrub-line-fill {
+  height: 100%;
+  width: 0%;       /* ST scrub will animate this width to 100% */
+  background: var(--green);
+  border-radius: 1px;
+}
+
+/* Right: Timeline steps */
+.scrub-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.scrub-step {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--bdr);
+  opacity: 0.25;        /* ST will animate opacity to 1 as each step is reached */
+  transition: opacity 0.3s ease;
+}
+
+.scrub-step:first-child { padding-top: 0; }
+
+.step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bdr);
+  flex-shrink: 0;
+  margin-top: 6px;
+  transition: background 0.3s ease;
+}
+
+.scrub-step.is-active .step-dot {
+  background: var(--green);
+}
+
+.step-title {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.step-text p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+
+/* ═══════════════════════════════════════════════
+   BUILD 03 — PARALLAX HERO
+═══════════════════════════════════════════════ */
+.section--parallax {
+  position: relative;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;       /* clips the taller background as it moves */
+  padding: 0 60px;
+}
+
+/* Background wrapper — overflow:hidden clips the bg movement */
+.parallax-bg-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* The actual background div — taller than 100vh so it has room to move.
+   ST will translate this element at ~0.5× the scroll speed. */
+.parallax-bg {
+  position: absolute;
+  inset: -20% 0;      /* extends 20% above and below for parallax travel */
+  background: linear-gradient(160deg, #0f0f14 0%, #1a0a24 50%, #0a0f1a 100%);
+}
+
+/* Abstract shapes that float at different speeds */
+.para-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.35;
+}
+
+.shape-a {
+  width: 500px;
+  height: 500px;
+  background: var(--motion);
+  top: 10%;
+  right: -100px;
+}
+
+.shape-b {
+  width: 300px;
+  height: 300px;
+  background: var(--dev);
+  bottom: 20%;
+  left: 15%;
+  opacity: 0.25;
+}
+
+.shape-c {
+  width: 200px;
+  height: 200px;
+  background: var(--green);
+  top: 55%;
+  right: 30%;
+  opacity: 0.2;
+}
+
+/* Foreground content — normal scroll speed */
+.parallax-content {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+}
+
+.parallax-title {
+  font-family: var(--font-head);
+  font-size: clamp(52px, 8vw, 110px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.0;
+  color: #fff;
+  margin-bottom: 22px;
+}
+
+.parallax-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 40px;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--green);
+  color: #000;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 26px;
+  border-radius: 100px;
+  transition: opacity 0.2s;
+}
+
+.cta-btn:hover { opacity: 0.85; }
+
+
+/* ═══════════════════════════════════════════════
+   BUILD 04 — BATCH CARD REVEAL
+═══════════════════════════════════════════════ */
+.section--batch {
+  padding-bottom: 120px;
+}
+
+.batch-header {
+  max-width: 560px;
+  margin-bottom: 60px;
+}
+
+.batch-title {
+  font-family: var(--font-head);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.batch-sub {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Card grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* NOTE: .project-card opacity is set to 0 by gsap.set() in script.js */
+.project-card {
+  background: var(--surf);
+  border: 1px solid var(--bdr);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.project-card:hover { border-color: #3a3a3a; }
+
+.card-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+
+/* Card image accent colours */
+.design-img   { background: linear-gradient(135deg, #1a050a, #602030); }
+.dev-img      { background: linear-gradient(135deg, #020810, #0d3060); }
+.motion-img   { background: linear-gradient(135deg, #0d0520, #3d1a60); }
+.design-img-2 { background: linear-gradient(135deg, #1a080a, #803040); }
+.dev-img-2    { background: linear-gradient(135deg, #030a18, #154080); }
+.motion-img-2 { background: linear-gradient(135deg, #100720, #502280); }
+
+.card-body {
+  padding: 18px 20px 20px;
+}
+
+.card-cat {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.project-card[data-category="design"] .card-cat {
+  background: rgba(244,91,105,0.12);
+  color: var(--design);
+}
+.project-card[data-category="dev"] .card-cat {
+  background: rgba(61,145,255,0.12);
+  color: var(--dev);
+}
+.project-card[data-category="motion"] .card-cat {
+  background: rgba(162,89,255,0.12);
+  color: var(--motion);
+}
+
+.card-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.card-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+
+.card-year {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: monospace;
+}
+
+
+/* ═══════════════════════════════════════════════
+   BUILD 05 — HORIZONTAL SCROLL
+═══════════════════════════════════════════════ */
+.section-tag--horiz {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--green);
+  padding: 40px 60px 20px;
+  border-top: 1px solid var(--bdr);
+}
+
+/* This div gets PINNED by ST */
+.horiz-outer {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* This div gets translated on X by ST.
+   Width = number of panels × 100vw */
+.horiz-track {
+  display: flex;
+  width: calc(4 * 100vw);   /* 4 panels — update if you add/remove panels */
+  height: 100%;
+}
+
+/* Each panel is exactly one viewport wide */
+.panel {
+  width: 100vw;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.panel-1 { background: linear-gradient(135deg, #0a0a0a, #1a0a20); }
+.panel-2 { background: linear-gradient(135deg, #040c1a, #0a2040); }
+.panel-3 { background: linear-gradient(135deg, #0a0a14, #0a1a30); }
+.panel-4 { background: linear-gradient(135deg, #050a08, #0a2018); }
+
+/* Decorative panel number — large background text */
+.panel::before {
+  content: attr(class);   /* could replace with a data attr */
+  position: absolute;
+  font-family: var(--font-head);
+  font-size: 40vw;
+  font-weight: 800;
+  color: rgba(255,255,255,0.02);
+  letter-spacing: -0.05em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  user-select: none;
+  pointer-events: none;
+}
+
+.panel-content {
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+  padding: 40px;
+}
+
+.panel-num {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--green);
+  margin-bottom: 16px;
+}
+
+.panel-title {
+  font-family: var(--font-head);
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--txt);
+  margin-bottom: 20px;
+}
+
+.panel-body {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 360px;
+}
+
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+.site-footer {
+  padding: 60px;
+  border-top: 1px solid var(--bdr);
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.site-footer code {
+  color: var(--green);
+  font-size: 12px;
+}
+
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE — basic mobile fallback
+═══════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .section { padding: calc(var(--nav-h) + 40px) 24px 60px; }
+  .sticky-inner { flex-direction: column; }
+  .sticky-left { width: 100%; }
+  .scroll-item { grid-template-columns: 1fr; }
+  .scrub-inner { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .section-tag--horiz { padding: 40px 24px 20px; }
+}

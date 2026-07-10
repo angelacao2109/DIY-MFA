@@ -1,0 +1,21 @@
+name: sync-notion-to-github
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # every 6 hours (UTC) — change to '0 * * * *' for hourly
+  workflow_dispatch:          # lets you run it manually from the Actions tab
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write             # required so the action can commit synced notes back
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: notion-sync
+        uses: YouXam/Notion-GitHub-Sync@v2
+        with:
+          notion_token: ${{ secrets.NOTION_TOKEN }}

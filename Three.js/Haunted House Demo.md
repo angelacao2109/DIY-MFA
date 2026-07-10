@@ -35,7 +35,8 @@ floor.rotation.x = -Math.PI * 0.5
 
 Rotate about the X axis. Using the right-hand rule (thumb along +X), a **positive** rotation sweeps +Z toward −Y — that would make the plane face *down*. So you need the **negative** quarter-turn: `-Math.PI * 0.5` sweeps the normal from +Z to +Y. That's why it's negative, not positive. If it were positive, the floor would technically be there but its lit face would point at the ground and you'd see the dark backside.
 
-!rotation_x_floor_plane_quarter_turn.png
+<img width="2720" height="1360" alt="rotation_x_floor_plane_quarter_turn" src="https://github.com/user-attachments/assets/3a7f3261-e436-47b2-af6a-299ed924f073" />
+
 
 Now the "quarter turn" part is just the *amount*:
 

@@ -19,3 +19,45 @@ jobs:
         uses: YouXam/Notion-GitHub-Sync@v2
         with:
           notion_token: ${{ secrets.NOTION_TOKEN }}
+
+      - name: organize images into images/ folders
+        shell: bash
+        run: |
+          cd "${{ github.workspace }}/github"
+          python3 - << 'EOF'
+          import re, pathlib, urllib.parse, shutil
+
+          IMG_EXT = {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.bmp', '.avif'}
+          LINK_RE = re.compile(r'(!\[[^\]]*\]\()([^)]+)(\))')
+
+          for md in pathlib.Path('.').rglob('*.md'):
+              if 'images' in md.parts or '.git' in md.parts:
+                  continue
+              text = md.read_text(encoding='utf-8')
+              folder = md.parent
+              changed = False
+
+              def repl(m):
+                  global changed
+                  target = m.group(2).strip()
+                  if target.startswith(('http://', 'https://', 'images/')):
+                      return m.group(0)
+                  raw = urllib.parse.unquote(target)
+                  if pathlib.Path(raw).suffix.lower() not in IMG_EXT:
+                      return m.group(0)
+                  src = folder / raw
+                  if not src.is_file():
+                      return m.group(0)
+                  (folder / 'images').mkdir(exist_ok=True)
+                  shutil.move(str(src), str(folder / 'images' / src.name))
+                  changed = True
+                  return m.group(1) + 'images/' + target + m.group(3)
+
+              new_text = LINK_RE.sub(repl, text)
+              if changed:
+                  md.write_text(new_text, encoding='utf-8')
+                  print(f'organized: {md}')
+          EOF
+          git add -A
+          git diff --staged --quiet || git commit -m "Organize images into images/ folders"
+          git push

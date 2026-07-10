@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Mirror a Notion page tree into ./notes/ as folders and markdown files.
 
+""" Mirror a Notion page tree into ./notes/ as folders and markdown files.
 Pages with subpages become folders (their own content saved as README.md).
 Leaf pages become <title>.md. Images go into an images/ folder beside each file.
 The notes/ folder is rebuilt from scratch every run, so renames, deletions,

@@ -1,63 +1,112 @@
-name: sync-notion-to-github
+#!/usr/bin/env python3
+"""Mirror a Notion page tree into ./notes/ as folders and markdown files.
 
-on:
-  schedule:
-    - cron: '0 */6 * * *'   # every 6 hours (UTC) — change to '0 * * * *' for hourly
-  workflow_dispatch:          # lets you run it manually from the Actions tab
-  push:
-    branches:
-      - main
+Pages with subpages become folders (their own content saved as README.md).
+Leaf pages become <title>.md. Images go into an images/ folder beside each file.
+The notes/ folder is rebuilt from scratch every run, so renames, deletions,
+and new pages in Notion are all reflected automatically.
+"""
+import os
+import re
+import shutil
+import time
+import pathlib
+from urllib.parse import quote
 
-permissions:
-  contents: write             # required so the action can commit synced notes back
+from notion_client import Client
+from notion2md.exporter.block import MarkdownExporter
 
-jobs:
-  sync:
-    runs-on: ubuntu-latest
-    steps:
-      - name: notion-sync
-        uses: YouXam/Notion-GitHub-Sync@v2
-        with:
-          notion_token: ${{ secrets.NOTION_TOKEN }}
+TOKEN = os.environ["NOTION_TOKEN"]
+ROOT_ID = os.environ["NOTION_ROOT_PAGE"]
+OUT = pathlib.Path("notes")
+TMP = pathlib.Path("/tmp/notion_export")
 
-      - name: organize images into images/ folders
-        shell: bash
-        run: |
-          cd "${{ github.workspace }}/github"
-          python3 - << 'EOF'
-          import re, pathlib, urllib.parse, shutil
+notion = Client(auth=TOKEN)
 
-          IMG_EXT = {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.bmp', '.avif'}
-          LINK_RE = re.compile(r'(!\[[^\]]*\]\()([^)]+)(\))')
 
-          for md in pathlib.Path('.').rglob('*.md'):
-              if 'images' in md.parts or '.git' in md.parts:
-                  continue
-              text = md.read_text(encoding='utf-8')
-              folder = md.parent
-              changed = False
+def sanitize(name: str) -> str:
+    name = re.sub(r'[<>:"/\\|?*\x00-\x1f]', "-", name)
+    name = re.sub(r"\s+", " ", name).strip().strip(".")
+    return name or "untitled"
 
-              def repl(m):
-                  global changed
-                  target = m.group(2).strip()
-                  if target.startswith(('http://', 'https://', 'images/')):
-                      return m.group(0)
-                  raw = urllib.parse.unquote(target)
-                  if pathlib.Path(raw).suffix.lower() not in IMG_EXT:
-                      return m.group(0)
-                  src = folder / raw
-                  if not src.is_file():
-                      return m.group(0)
-                  (folder / 'images').mkdir(exist_ok=True)
-                  shutil.move(str(src), str(folder / 'images' / src.name))
-                  changed = True
-                  return m.group(1) + 'images/' + target + m.group(3)
 
-              new_text = LINK_RE.sub(repl, text)
-              if changed:
-                  md.write_text(new_text, encoding='utf-8')
-                  print(f'organized: {md}')
-          EOF
-          git add -A
-          git diff --staged --quiet || git commit -m "Organize images into images/ folders"
-          git push
+def child_pages(block_id: str):
+    """Return [(id, title)] for child_page blocks, handling pagination."""
+    results, cursor = [], None
+    while True:
+        kwargs = {"block_id": block_id}
+        if cursor:
+            kwargs["start_cursor"] = cursor
+        resp = notion.blocks.children.list(**kwargs)
+        for b in resp["results"]:
+            if b["type"] == "child_page":
+                results.append((b["id"], b["child_page"]["title"]))
+        if not resp.get("has_more"):
+            return results
+        cursor = resp["next_cursor"]
+
+
+def export_page(page_id: str, md_dest: pathlib.Path):
+    """Export one page's own content to md_dest; images into images/ beside it."""
+    tmp = TMP / page_id.replace("-", "")
+    if tmp.exists():
+        shutil.rmtree(tmp)
+    tmp.mkdir(parents=True)
+    MarkdownExporter(
+        block_id=page_id, output_path=str(tmp), download=True,
+        unzipped=True, token=TOKEN,
+    ).export()
+    md_files = list(tmp.glob("*.md"))
+    text = md_files[0].read_text(encoding="utf-8") if md_files else ""
+    assets = [p for p in tmp.iterdir() if p.suffix.lower() != ".md"]
+    md_dest.parent.mkdir(parents=True, exist_ok=True)
+    if assets:
+        img_dir = md_dest.parent / "images"
+        img_dir.mkdir(exist_ok=True)
+        for a in assets:
+            shutil.move(str(a), str(img_dir / a.name))
+            text = text.replace(f"]({a.name})", f"](images/{a.name})")
+            text = text.replace(f"]({quote(a.name)})", f"](images/{quote(a.name)})")
+    md_dest.write_text(text, encoding="utf-8")
+    shutil.rmtree(tmp)
+    time.sleep(0.4)  # stay under Notion's rate limit
+
+
+def unique(path: pathlib.Path) -> pathlib.Path:
+    """Avoid collisions when two sibling pages share a title."""
+    if not path.exists():
+        return path
+    n = 2
+    while True:
+        cand = path.with_name(f"{path.stem} ({n}){path.suffix}")
+        if not cand.exists():
+            return cand
+        n += 1
+
+
+def mirror(page_id: str, title: str, parent_dir: pathlib.Path):
+    kids = child_pages(page_id)
+    name = sanitize(title)
+    if kids:
+        folder = unique(parent_dir / name)
+        export_page(page_id, folder / "README.md")
+        print(f"[dir]  {folder}")
+        for kid_id, kid_title in kids:
+            mirror(kid_id, kid_title, folder)
+    else:
+        dest = unique(parent_dir / f"{name}.md")
+        export_page(page_id, dest)
+        print(f"[page] {dest}")
+
+
+def main():
+    if OUT.exists():
+        shutil.rmtree(OUT)
+    export_page(ROOT_ID, OUT / "README.md")
+    for kid_id, kid_title in child_pages(ROOT_ID):
+        mirror(kid_id, kid_title, OUT)
+    print("mirror complete")
+
+
+if __name__ == "__main__":
+    main()
